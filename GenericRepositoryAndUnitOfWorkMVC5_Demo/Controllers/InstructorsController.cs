@@ -21,7 +21,7 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Instructor instructor = unitOfWork.InstructorRepository.Get(id);
+            Instructor instructor = unitOfWork.InstructorRepository.GetById(id);
             if (instructor == null)
             {
                 return HttpNotFound();
@@ -54,7 +54,7 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Instructor instructor = unitOfWork.InstructorRepository.Get(id);
+            Instructor instructor = unitOfWork.InstructorRepository.GetById(id);
             if (instructor == null)
             {
                 return HttpNotFound();
@@ -68,7 +68,10 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.InstructorRepository.Update(instructor);
+                Instructor edit = unitOfWork.InstructorRepository.GetById(instructor.Id);
+                edit.InstructorName = instructor.InstructorName;
+                edit.Qualification = instructor.Qualification;
+                edit.Experience = instructor.Experience;
                 unitOfWork.Complete();
                 return RedirectToAction("Index");
             }
@@ -81,7 +84,7 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Instructor instructor = unitOfWork.InstructorRepository.Get(id);
+            Instructor instructor = unitOfWork.InstructorRepository.GetById(id);
             if (instructor == null)
             {
                 return HttpNotFound();
@@ -93,7 +96,7 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Instructor instructor = unitOfWork.InstructorRepository.Get(id);
+            Instructor instructor = unitOfWork.InstructorRepository.GetById(id);
             unitOfWork.InstructorRepository.Remove(instructor);
             unitOfWork.Complete();
             return RedirectToAction("Index");

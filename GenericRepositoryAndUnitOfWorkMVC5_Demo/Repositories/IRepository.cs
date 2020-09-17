@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Collections.Generic;
 
 namespace DependencyInjectionUnityContainerMVC5_Demo.Repositories
 {
     public interface IRepository<TEntity> where TEntity : class
     {
         IEnumerable<TEntity> GetAll();
-        TEntity Get(int? id);
-        IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
+        TEntity GetById(int? id);
         void Add(TEntity entity);
-        void Update(TEntity entity);
         void Remove(TEntity entity);
     }
 }

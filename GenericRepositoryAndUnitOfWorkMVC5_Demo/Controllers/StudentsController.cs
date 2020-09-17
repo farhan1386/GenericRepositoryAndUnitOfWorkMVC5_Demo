@@ -22,7 +22,7 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = unitOfWork.StudentRepository.Get(id);
+            Student student = unitOfWork.StudentRepository.GetById(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -59,7 +59,7 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = unitOfWork.StudentRepository.Get(id);
+            Student student = unitOfWork.StudentRepository.GetById(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -75,7 +75,14 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.StudentRepository.Update(student);
+                Student edit = unitOfWork.StudentRepository.GetById(student.Id);
+                edit.StudentName = student.StudentName;
+                edit.Course = unitOfWork.CourseRepositroy.GetById(student.Id);
+                edit.Instructor = unitOfWork.InstructorRepository.GetById(student.Id);
+                edit.CourseFee = student.CourseFee;
+                edit.CourseDuration = student.CourseDuration;
+                edit.StartDate = student.StartDate;
+                edit.BatchTime = student.BatchTime;
                 unitOfWork.Complete();
                 return RedirectToAction("Index");
             }
@@ -90,7 +97,7 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Student student = unitOfWork.StudentRepository.Get(id);
+            Student student = unitOfWork.StudentRepository.GetById(id);
             if (student == null)
             {
                 return HttpNotFound();
@@ -102,7 +109,7 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Student student = unitOfWork.StudentRepository.Get(id);
+            Student student = unitOfWork.StudentRepository.GetById(id);
             unitOfWork.StudentRepository.Remove(student);
             unitOfWork.Complete();
             return RedirectToAction("Index");

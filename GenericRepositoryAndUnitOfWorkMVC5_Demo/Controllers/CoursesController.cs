@@ -22,7 +22,7 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = unitOfWork.CourseRepositroy.Get(id);
+            Course course = unitOfWork.CourseRepositroy.GetById(id);
             if (course == null)
             {
                 return HttpNotFound();
@@ -55,7 +55,7 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = unitOfWork.CourseRepositroy.Get(id);
+            Course course = unitOfWork.CourseRepositroy.GetById(id);
             if (course == null)
             {
                 return HttpNotFound();
@@ -69,7 +69,8 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
         {
             if (ModelState.IsValid)
             {
-                unitOfWork.CourseRepositroy.Update(course);
+                Course edit = unitOfWork.CourseRepositroy.GetById(course.Id);
+                edit.CourseName = course.CourseName;
                 unitOfWork.Complete();
                 return RedirectToAction("Index");
             }
@@ -82,7 +83,7 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = unitOfWork.CourseRepositroy.Get(id);
+            Course course = unitOfWork.CourseRepositroy.GetById(id);
             if (course == null)
             {
                 return HttpNotFound();
@@ -94,7 +95,7 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Course course = unitOfWork.CourseRepositroy.Get(id);
+            Course course = unitOfWork.CourseRepositroy.GetById(id);
             unitOfWork.CourseRepositroy.Remove(course);
             unitOfWork.Complete();
             return RedirectToAction("Index");
