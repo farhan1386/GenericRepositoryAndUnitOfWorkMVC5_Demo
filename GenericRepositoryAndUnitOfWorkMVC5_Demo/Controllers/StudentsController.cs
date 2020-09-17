@@ -77,8 +77,8 @@ namespace GenericRepositoryAndUnitOfWorkMVC5_Demo.Controllers
             {
                 Student edit = unitOfWork.StudentRepository.GetById(student.Id);
                 edit.StudentName = student.StudentName;
-                edit.Course = unitOfWork.CourseRepositroy.GetById(student.Id);
-                edit.Instructor = unitOfWork.InstructorRepository.GetById(student.Id);
+                edit.Course = unitOfWork.CourseRepositroy.GetById(student.CourseId);
+                edit.Instructor = unitOfWork.InstructorRepository.GetById(student.InstructorId);
                 edit.CourseFee = student.CourseFee;
                 edit.CourseDuration = student.CourseDuration;
                 edit.StartDate = student.StartDate;
